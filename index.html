@@ -772,6 +772,24 @@
         position: relative;
         overflow: hidden;
       }
+      .фильм-постер-изображение {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.25;
+        filter: grayscale(60%) contrast(1.3);
+        z-index: 0;
+        transition: all ease;
+      }
+
+      .film-poster:hover .фильм-постер-изображение {
+        opacity: 0.35;
+        filter: grayscale(40%) contrast(1.2);
+        transform: scale(1.05);
+      }
 
       .credits-link::before {
         content: "";
@@ -906,6 +924,17 @@
     <!-- ФИЛЬМ 01: ЗОЛОТОЙ ГЛОБУС -->
     <section class="film-section chapter-1">
       <div class="film-poster">
+        <img
+          src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1U3aDz.img?w=4206&h=2804&m=4&q=75"
+          class="фильм-постер-изображение"
+          alt="Золотой Глобус"
+          style="
+            translate: none;
+            rotate: none;
+            scale: none;
+            transform: translate3d(0px, 0px, 0px) scale(1.0432, 1.0432);
+          "
+        />
         <div class="film-poster-overlay"></div>
         <div class="spotlight"></div>
 
@@ -972,6 +1001,16 @@
     <!-- ФИЛЬМ 02: СЧАСТЛИВОЕ ЛИЦО -->
     <section class="film-section chapter-2">
       <div class="film-poster">
+        <img
+          src="https://i0.wp.com/image.tmdb.org/t/p/original/weWYvnfN4SVZeAVUtPnLrOzFO5W.jpg"
+          class="фильм-постер-изображение"
+          style="
+            translate: none;
+            rotate: none;
+            scale: none;
+            transform: translate3d(0px, 0px, 0px) scale(1.0432, 1.0432);
+          "
+        />
         <div class="film-poster-overlay"></div>
         <div class="archive-grid"></div>
 
@@ -1052,6 +1091,16 @@
     <!-- ФИЛЬМ 03: УМИРАЯ ЗА СЕКС -->
     <section class="film-section chapter-3">
       <div class="film-poster">
+        <img
+          src="https://a.olamovies.mov/wp-content/uploads/2025/04/Dying-for-Sex-2025-Google-Drive-Download.jpg"
+          class="фильм-постер-изображение"
+          style="
+            translate: none;
+            rotate: none;
+            scale: none;
+            transform: translate3d(0px, 0px, 0px) scale(1.0432, 1.0432);
+          "
+        />
         <div class="film-poster-overlay"></div>
         <div class="soft-glow"></div>
 
@@ -1137,6 +1186,16 @@
     <!-- ФИЛЬМ 04: ПЛОХИЕ СЁСТРЫ -->
     <section class="film-section chapter-4">
       <div class="film-poster">
+        <img
+          src="https://artworks.thetvdb.com/banners/v4/series/418182/backgrounds/6491731fd9372.jpg"
+          class="фильм-постер-изображение"
+          style="
+            translate: none;
+            rotate: none;
+            scale: none;
+            transform: translate3d(0px, 0px, 0px) scale(1.0432, 1.0432);
+          "
+        />
         <div class="film-poster-overlay"></div>
         <div class="vintage-overlay"></div>
 
@@ -1453,6 +1512,20 @@
             duration: 0.6,
             ease: "power2.out",
           });
+        });
+      });
+      // Эффект мерцания для изображений постеров
+      document.querySelectorAll(".фильм-постер-изображение").forEach((img) => {
+        gsap.to(img, {
+          scrollTrigger: {
+            trigger: img.parentElement,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+          scale: 1.2,
+          filter: "blur(8px)",
+          ease: "none",
         });
       });
     </script>
