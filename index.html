@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINEMA DIARY — Film Festival of Personal Obsessions</title>
+    <title>КИНОДНЕВНИК — Фестиваль личных одержимостей</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -12,141 +12,131 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-bg: #050505;
-            --color-text: #e0e0e0;
-            --color-text-dim: #666666;
-            --color-gold: #c9a96e;
-            --color-gold-dim: #8a7340;
-            --color-blue-dark: #0a0e1a;
-            --color-red-dark: #1a0505;
-            --color-pink-soft: #f0e0e0;
-            --color-green-dark: #051a0a;
-            --font-display: 'Cormorant Garamond', serif;
-            --font-body: 'Inter', sans-serif;
-            --font-mono: 'Space Mono', monospace;
+            --цвет-фон: #030303;
+            --цвет-текст: #e8e8e8;
+            --цвет-текст-пригл: #555555;
+            --цвет-золото: #c9a96e;
+            --цвет-золото-пригл: #7a6a40;
+            --цвет-синий: #080c18;
+            --цвет-красный: #150303;
+            --цвет-розовый: #e8d8d8;
+            --цвет-зеленый: #030f08;
+            --шрифт-заголовки: 'Cormorant Garamond', serif;
+            --шрифт-текст: 'Inter', sans-serif;
+            --шрифт-моно: 'Space Mono', monospace;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: auto;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: auto; }
 
         body {
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            font-family: var(--font-body);
+            background-color: var(--цвет-фон);
+            color: var(--цвет-текст);
+            font-family: var(--шрифт-текст);
             overflow-x: hidden;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             cursor: crosshair;
         }
 
-        /* Film grain overlay - enhanced */
-        .film-grain {
+        /* === КИНОЗЕРНО === */
+        .кинозерно {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.05;
+            opacity: 0.06;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
             background-repeat: repeat;
-            animation: grain 0.4s steps(8) infinite;
+            background-size: 256px;
+            animation: зерно 0.3s steps(6) infinite;
+            mix-blend-mode: overlay;
         }
 
-        @keyframes grain {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            10% { transform: translate(-3%, -3%) rotate(0.5deg); }
-            20% { transform: translate(-6%, 3%) rotate(-0.5deg); }
-            30% { transform: translate(3%, -6%) rotate(0.3deg); }
-            40% { transform: translate(-3%, 6%) rotate(-0.3deg); }
-            50% { transform: translate(-6%, 3%) rotate(0.5deg); }
-            60% { transform: translate(6%, 0) rotate(-0.5deg); }
-            70% { transform: translate(0, 6%) rotate(0.3deg); }
-            80% { transform: translate(-6%, 0) rotate(-0.3deg); }
-            90% { transform: translate(3%, 3%) rotate(0.5deg); }
+        @keyframes зерно {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-2%, -1%); }
+            40% { transform: translate(1%, 2%); }
+            60% { transform: translate(-1%, -2%); }
+            80% { transform: translate(2%, 1%); }
         }
 
-        /* Projector light drift - enhanced */
-        .projector-drift {
+        /* === ЦАРАПИНЫ ПЛЁНКИ === */
+        .царапины {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.04;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.06) 2px, rgba(255,255,255,0.06) 3px),
+                repeating-linear-gradient(0deg, transparent, transparent 150px, rgba(255,255,255,0.02) 150px, rgba(255,255,255,0.02) 151px);
+            animation: царапины 15s linear infinite;
+        }
+
+        @keyframes царапины {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        /* === СВЕТ ПРОЕКТОРА === */
+        .свет-проектора {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 1;
             background:
-                radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 60%, rgba(255,255,255,0.02) 0%, transparent 50%);
-            animation: drift 25s ease-in-out infinite alternate;
+                radial-gradient(ellipse at 40% 45%, rgba(200,180,140,0.06) 0%, transparent 55%),
+                radial-gradient(ellipse at 65% 55%, rgba(255,255,255,0.03) 0%, transparent 45%);
+            animation: дрейф 20s ease-in-out infinite alternate;
             mix-blend-mode: screen;
         }
 
-        @keyframes drift {
-            0% { transform: translate(-8%, -8%) scale(1.1) rotate(0deg); opacity: 0.6; }
+        @keyframes дрейф {
+            0% { transform: translate(-6%, -6%) scale(1.15) rotate(-1deg); opacity: 0.7; }
             50% { opacity: 1; }
-            100% { transform: translate(8%, 8%) scale(1.3) rotate(2deg); opacity: 0.6; }
+            100% { transform: translate(6%, 6%) scale(1.35) rotate(2deg); opacity: 0.7; }
         }
 
-        /* Scratch overlay - enhanced with more variation */
-        .scratch-overlay {
+        /* === ПЫЛЬ === */
+        .пыль {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 9998;
-            opacity: 0.025;
-            background:
-                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255,255,255,0.08) 3px, rgba(255,255,255,0.08) 4px),
-                repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(255,255,255,0.03) 100px, rgba(255,255,255,0.03) 101px);
-            animation: scratchMove 20s linear infinite;
+            z-index: 3;
+            opacity: 0.4;
         }
 
-        @keyframes scratchMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 100px 0; }
+        .частица {
+            position: absolute;
+            background: rgba(255,255,255,0.25);
+            border-radius: 50%;
+            animation: пыльДрейф linear infinite;
         }
 
-        /* Dust particles */
-        .dust-particles {
+        @keyframes пыльДрейф {
+            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+            8% { opacity: 1; }
+            92% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(80px); opacity: 0; }
+        }
+
+        /* === ВИГНЕТКА === */
+        .виньетка {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             z-index: 2;
-            opacity: 0.3;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
         }
 
-        .dust-particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
-        }
-
-        /* Hero Section */
-        .hero {
+        /* === ГЕРОЙ === */
+        .герой {
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -154,74 +144,60 @@
             align-items: center;
             text-align: center;
             position: relative;
-            background: var(--color-bg);
+            background: var(--цвет-фон);
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%),
-                conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.01) 0deg, transparent 60deg, rgba(255,255,255,0.01) 120deg, transparent 180deg, rgba(255,255,255,0.01) 240deg, transparent 300deg, rgba(255,255,255,0.01) 360deg);
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .hero-content {
+        .герой-контент {
             z-index: 10;
             max-width: 900px;
             padding: 0 2rem;
             position: relative;
         }
 
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 5vw, 4.5rem);
+        .герой-заголовок {
+            font-family: var(--шрифт-заголовки);
+            font-size: clamp(2.2rem, 5.5vw, 5rem);
             font-weight: 300;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: var(--color-text);
+            color: var(--цвет-текст);
             margin-bottom: 2rem;
-            line-height: 1.1;
-            text-shadow: 0 0 40px rgba(255,255,255,0.05);
+            line-height: 1.05;
+            text-shadow: 0 0 50px rgba(255,255,255,0.06);
         }
 
-        .hero-subtitle {
-            font-family: var(--font-body);
-            font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+        .герой-подзаголовок {
+            font-family: var(--шрифт-текст);
+            font-size: clamp(0.85rem, 1.6vw, 1rem);
             font-weight: 300;
-            color: var(--color-text-dim);
-            margin-bottom: 4rem;
+            color: var(--цвет-текст-пригл);
+            margin-bottom: 3rem;
             line-height: 2;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
         }
 
-        .hero-meta {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--color-text-dim);
-            letter-spacing: 0.3em;
+        .герой-мета {
+            font-family: var(--шрифт-моно);
+            font-size: 0.65rem;
+            color: var(--цвет-текст-пригл);
+            letter-spacing: 0.35em;
             text-transform: uppercase;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
-        /* Film counter scroll indicator */
-        .film-counter {
+        /* === СЧЁТЧИК ПЛЁНКИ === */
+        .счётчик-плёнки {
             position: absolute;
-            bottom: 4rem;
+            bottom: 3rem;
             left: 50%;
             transform: translateX(-50%);
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--color-text-dim);
+            font-family: var(--шрифт-моно);
+            font-size: 0.8rem;
+            color: var(--цвет-текст-пригл);
             letter-spacing: 0.4em;
             display: flex;
             align-items: center;
@@ -229,43 +205,41 @@
             z-index: 10;
         }
 
-        .counter-line {
-            width: 80px;
+        .счётчик-линия {
+            width: 100px;
             height: 1px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
             position: relative;
             overflow: hidden;
         }
 
-        .counter-line::after {
+        .счётчик-линия::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--color-text);
-            animation: slideLine 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--цвет-золото);
+            animation: линияСчётчик 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
-        @keyframes slideLine {
+        @keyframes линияСчётчик {
             0% { left: -100%; }
             50% { left: 0; }
             100% { left: 100%; }
         }
 
-        /* Film Section General */
-        .film-section {
+        /* === ОБЩИЕ СТИЛИ ФИЛЬМА === */
+        .фильм-секция {
             min-height: 100vh;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 10rem 2rem;
+            padding: 0;
             overflow: hidden;
         }
 
-        .film-poster {
+        .фильм-постер {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -273,680 +247,745 @@
             align-items: center;
             text-align: center;
             position: relative;
-            padding: 6rem 2rem;
+            padding: 4rem 2rem;
+            overflow: hidden;
         }
 
-        .film-number {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.5em;
-            color: var(--color-text-dim);
-            margin-bottom: 2.5rem;
+        .фильм-постер-изображение {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: grayscale(50%) contrast(1.4) brightness(0.6);
+            z-index: 0;
+            transition: all 1.5s ease;
+            transform: scale(1.1);
+        }
+
+        .фильм-секция:hover .фильм-постер-изображение {
+            opacity: 0.4;
+            filter: grayscale(30%) contrast(1.2) brightness(0.7);
+            transform: scale(1.15);
+        }
+
+        .фильм-постер-затемнение {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(3,3,3,0.85) 0%, rgba(3,3,3,0.5) 40%, rgba(3,3,3,0.85) 100%);
+            z-index: 1;
+        }
+
+        .фильм-контент-внутри {
+            position: relative;
+            z-index: 5;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .фильм-номер {
+            font-family: var(--шрифт-моно);
+            font-size: 0.7rem;
+            letter-spacing: 0.6em;
+            color: var(--цвет-текст-пригл);
+            margin-bottom: 2rem;
             text-transform: uppercase;
             position: relative;
             display: inline-block;
         }
 
-        .film-number::before,
-        .film-number::after {
+        .фильм-номер::before,
+        .фильм-номер::after {
             content: '—';
             margin: 0 1rem;
-            color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.15);
         }
 
-        .film-official-selection {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.4em;
-            color: var(--color-text-dim);
-            margin-bottom: 0.8rem;
+        .фильм-отбор {
+            font-family: var(--шрифт-моно);
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            color: var(--цвет-текст-пригл);
+            margin-bottom: 0.6rem;
             text-transform: uppercase;
         }
 
-        .film-program {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.4em;
-            color: rgba(255,255,255,0.4);
-            margin-bottom: 4rem;
+        .фильм-программа {
+            font-family: var(--шрифт-моно);
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 3rem;
             text-transform: uppercase;
-            padding: 0.5rem 1.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.4rem 1.2rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: inline-block;
         }
 
-        .film-title {
-            font-family: var(--font-display);
-            font-size: clamp(3.5rem, 9vw, 8rem);
+        .фильм-заголовок {
+            font-family: var(--шрифт-заголовки);
+            font-size: clamp(3rem, 10vw, 9rem);
             font-weight: 300;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
             margin-bottom: 2rem;
             line-height: 0.9;
             position: relative;
         }
 
-        .film-quote {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+        .фильм-цитата {
+            font-family: var(--шрифт-заголовки);
+            font-size: clamp(1.6rem, 4vw, 3.2rem);
             font-weight: 400;
             font-style: italic;
-            max-width: 900px;
-            line-height: 1.2;
-            margin-bottom: 3rem;
+            max-width: 850px;
+            line-height: 1.25;
+            margin: 0 auto 2rem;
             padding: 0 2rem;
             position: relative;
         }
 
-        .film-quote::before {
-            content: '"';
-            position: absolute;
-            top: -2rem;
-            left: 0;
-            font-size: 6rem;
-            color: rgba(255,255,255,0.05);
-            font-family: var(--font-display);
-            line-height: 1;
-        }
-
-        .film-content {
+        .фильм-текст-секция {
             max-width: 750px;
             margin: 0 auto;
             width: 100%;
             position: relative;
             z-index: 10;
+            padding: 6rem 2rem 8rem;
         }
 
-        .film-text {
-            font-family: var(--font-body);
-            font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-            line-height: 1.9;
-            color: rgba(255,255,255,0.85);
+        .фильм-текст {
+            font-family: var(--шрифт-текст);
+            font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+            line-height: 2;
+            color: rgba(255,255,255,0.82);
             margin-bottom: 2.5rem;
             font-weight: 300;
             letter-spacing: 0.01em;
         }
 
-        .film-meta-info {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.25em;
-            color: var(--color-text-dim);
-            margin-bottom: 5rem;
+        .фильм-мета-инфо {
+            font-family: var(--шрифт-моно);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--цвет-текст-пригл);
+            margin-bottom: 4rem;
             text-transform: uppercase;
             display: flex;
             flex-wrap: wrap;
-            gap: 3rem;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 2.5rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        .meta-item {
+        .мета-элемент {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
-        .meta-label {
-            color: rgba(255,255,255,0.4);
-            font-size: 0.6rem;
-            letter-spacing: 0.3em;
+        .мета-метка {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.55rem;
+            letter-spacing: 0.35em;
         }
 
-        .meta-value {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.75rem;
+        .мета-значение {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.7rem;
             letter-spacing: 0.15em;
         }
 
-        /* Chapter 1: Golden Globe */
-        .chapter-1 {
-            background: linear-gradient(160deg, var(--color-blue-dark) 0%, #000000 60%, #0a0a1a 100%);
+        /* === ГЛАВА 1: ЗОЛОТОЙ ГЛОБУС === */
+        .глава-1 .фильм-постер {
+            background: linear-gradient(160deg, #060a14 0%, #000000 50%, #080c18 100%);
         }
 
-        .chapter-1 .film-title {
-            color: var(--color-gold);
-            text-shadow: 0 0 60px rgba(201, 169, 110, 0.15);
+        .глава-1 .фильм-заголовок {
+            color: var(--цвет-золото);
+            text-shadow: 0 0 80px rgba(201, 169, 110, 0.2);
         }
 
-        .chapter-1 .film-quote {
-            color: var(--color-gold-dim);
+        .глава-1 .фильм-цитата {
+            color: var(--цвет-золото-пригл);
         }
 
-        .spotlight {
+        .прожектор {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(201, 169, 110, 0.08) 0%, transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.12) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
-            animation: spotlightMove 20s ease-in-out infinite alternate;
-            filter: blur(40px);
+            animation: движениеПрожектора 18s ease-in-out infinite alternate;
+            filter: blur(50px);
+            z-index: 2;
         }
 
-        @keyframes spotlightMove {
-            0% { transform: translate(-50%, -50%) translate(15vw, 25vh); }
-            100% { transform: translate(-50%, -50%) translate(85vw, 75vh); }
+        @keyframes движениеПрожектора {
+            0% { transform: translate(-50%, -50%) translate(10vw, 20vh); }
+            100% { transform: translate(-50%, -50%) translate(90vw, 80vh); }
         }
 
-        /* Chapter 2: Happy Face */
-        .chapter-2 {
-            background: linear-gradient(160deg, var(--color-red-dark) 0%, #000000 50%, #1a0505 100%);
+        /* === ГЛАВА 2: СЧАСТЛИВОЕ ЛИЦО === */
+        .глава-2 .фильм-постер {
+            background: linear-gradient(160deg, #120202 0%, #000000 40%, #1a0303 100%);
         }
 
-        .chapter-2 .film-title {
-            color: #6b0000;
-            text-shadow: 0 0 60px rgba(139, 0, 0, 0.2);
+        .глава-2 .фильм-заголовок {
+            color: #8b0000;
+            text-shadow: 0 0 80px rgba(139, 0, 0, 0.25);
         }
 
-        .chapter-2 .film-quote {
-            color: #8b4040;
+        .глава-2 .фильм-цитата {
+            color: #9b4040;
             font-size: clamp(2.5rem, 7vw, 6rem);
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             font-style: normal;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             max-width: 1100px;
             line-height: 1;
             text-align: center;
         }
 
-        .chapter-2 .film-quote::before {
-            display: none;
-        }
-
-        .archive-grid {
+        .архивная-сетка {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             opacity: 0.04;
             background-image:
-                linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px);
+            background-size: 35px 35px;
+            z-index: 2;
         }
 
-        .redacted-text {
-            background: rgba(139, 0, 0, 0.3);
-            padding: 0.2rem 0.5rem;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: transparent;
-            user-select: none;
-            margin: 0 0.2rem;
+        /* === ГЛАВА 3: УМИРАЯ ЗА СЕКС === */
+        .глава-3 .фильм-постер {
+            background: linear-gradient(160deg, #140808 0%, #1f1010 40%, #140808 100%);
         }
 
-        /* Chapter 3: Dying for Sex */
-        .chapter-3 {
-            background: linear-gradient(160deg, #1a0a0a 0%, #2a1515 40%, #1a0a0a 100%);
+        .глава-3 .фильм-заголовок {
+            color: var(--цвет-розовый);
+            text-shadow: 0 0 80px rgba(232, 216, 216, 0.12);
         }
 
-        .chapter-3 .film-title {
-            color: var(--color-pink-soft);
-            text-shadow: 0 0 60px rgba(240, 224, 224, 0.1);
-        }
-
-        .chapter-3 .film-quote {
-            color: #c4a0a0;
+        .глава-3 .фильм-цитата {
+            color: #c8a0a0;
             font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 300;
             text-align: center;
             line-height: 1.1;
         }
 
-        .soft-glow {
+        .мягкое-свечение {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(240, 224, 224, 0.06) 0%, transparent 70%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(232, 216, 216, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            animation: softPulse 12s ease-in-out infinite alternate;
-            filter: blur(60px);
+            animation: пульс 10s ease-in-out infinite alternate;
+            filter: blur(70px);
+            z-index: 2;
         }
 
-        @keyframes softPulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
-            100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
+        @keyframes пульс {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.8; }
         }
 
-        /* Chapter 4: Bad Sisters */
-        .chapter-4 {
-            background: linear-gradient(160deg, var(--color-green-dark) 0%, #000000 50%, #051a0a 100%);
+        /* === ГЛАВА 4: ПЛОХИЕ СЁСТРЫ === */
+        .глава-4 .фильм-постер {
+            background: linear-gradient(160deg, #030d06 0%, #000000 50%, #030f08 100%);
         }
 
-        .chapter-4 .film-title {
+        .глава-4 .фильм-заголовок {
             color: #2d5a3d;
-            text-shadow: 0 0 60px rgba(45, 90, 61, 0.15);
+            text-shadow: 0 0 80px rgba(45, 90, 61, 0.2);
         }
 
-        .chapter-4 .film-quote {
+        .глава-4 .фильм-цитата {
             color: #3d6a4d;
             font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 500;
             text-transform: uppercase;
             font-style: normal;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.18em;
             line-height: 1.1;
         }
 
-        .vintage-overlay {
+        .винтаж-наложение {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
-            opacity: 0.04;
+            opacity: 0.05;
             background:
-                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.15) 0%, transparent 40%),
-                radial-gradient(circle at 75% 75%, rgba(0,0,0,0.3) 0%, transparent 40%),
-                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 20px);
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.2) 0%, transparent 35%),
+                radial-gradient(circle at 80% 80%, rgba(0,0,0,0.35) 0%, transparent 35%),
+                repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.02) 8px, rgba(255,255,255,0.02) 16px);
+            z-index: 2;
         }
 
-        /* Credits Section */
-        .credits {
+        /* === МАРКЕРЫ СЦЕН === */
+        .маркер-сцены {
+            position: absolute;
+            font-family: var(--шрифт-моно);
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.12);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            z-index: 5;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        /* === ТИТРЫ === */
+        .титры {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: var(--color-bg);
+            background: var(--цвет-фон);
             position: relative;
             overflow: hidden;
             padding: 6rem 2rem;
         }
 
-        .credits-content {
+        .титры-контент {
             position: relative;
             z-index: 10;
         }
 
-        .credits-title {
-            font-family: var(--font-display);
+        .титры-заголовок {
+            font-family: var(--шрифт-заголовки);
             font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 300;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            margin-bottom: 4rem;
-            color: var(--color-text);
+            margin-bottom: 3rem;
+            color: var(--цвет-текст);
             position: relative;
             display: inline-block;
         }
 
-        .credits-title::after {
+        .титры-заголовок::after {
             content: '';
             position: absolute;
             bottom: -1rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
+            width: 80px;
             height: 1px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.25);
         }
 
-        .credits-text {
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            color: var(--color-text-dim);
-            margin-bottom: 1.5rem;
+        .титры-текст {
+            font-family: var(--шрифт-текст);
+            font-size: 0.9rem;
+            color: var(--цвет-текст-пригл);
+            margin-bottom: 1.2rem;
             font-weight: 300;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
         }
 
-        .credits-author {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            color: var(--color-text);
-            margin-bottom: 4rem;
+        .титры-автор {
+            font-family: var(--шрифт-заголовки);
+            font-size: 1.6rem;
+            color: var(--цвет-текст);
+            margin-bottom: 3rem;
             font-weight: 400;
             font-style: italic;
         }
 
-        .credits-link {
+        .титры-ссылка {
             display: inline-block;
-            margin-top: 2rem;
-            padding: 1.2rem 4rem;
-            border: 1px solid rgba(255,255,255,0.25);
-            color: var(--color-text);
+            margin-top: 1.5rem;
+            padding: 1rem 3.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--цвет-текст);
             text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
+            font-family: var(--шрифт-моно);
+            font-size: 0.7rem;
+            letter-spacing: 0.35em;
             text-transform: uppercase;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
-        .credits-link::before {
+        .титры-ссылка::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--color-text);
-            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--цвет-текст);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: -1;
         }
 
-        .credits-link:hover {
-            color: var(--color-bg);
-            border-color: var(--color-text);
+        .титры-ссылка:hover {
+            color: var(--цвет-фон);
+            border-color: var(--цвет-текст);
         }
 
-        .credits-link:hover::before {
+        .титры-ссылка:hover::before {
             left: 0;
         }
 
-        /* Utility classes for GSAP */
-        .gsap-reveal {
+        /* === УТИЛИТЫ GSAP === */
+        .gsap-появление {
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(50px);
         }
 
-        /* Scene markers */
-        .scene-marker {
-            position: absolute;
-            font-family: var(--font-mono);
-            font-size: 0.6rem;
-            color: rgba(255,255,255,0.15);
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            z-index: 5;
-        }
-
-        /* Responsive */
+        /* === АДАПТИВ === */
         @media (max-width: 768px) {
-            .film-section {
-                padding: 6rem 1.5rem;
-            }
-            .film-poster {
-                padding: 3rem 1.5rem;
-                min-height: 80vh;
-            }
-            .film-meta-info {
-                gap: 1.5rem;
-                flex-direction: column;
-            }
-            .film-quote::before {
-                font-size: 4rem;
-                top: -1.5rem;
-            }
-            .hero-title {
-                letter-spacing: 0.1em;
-            }
+            .фильм-постер { padding: 3rem 1.5rem; min-height: 80vh; }
+            .фильм-текст-секция { padding: 4rem 1.5rem 6rem; }
+            .фильм-мета-инфо { gap: 1.5rem; flex-direction: column; }
+            .герой-заголовок { letter-spacing: 0.12em; }
+            .маркер-сцены { display: none; }
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 4px;
+        /* === СКРОЛЛБАР === */
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--цвет-фон); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+        /* === РАЗДЕЛИТЕЛЬ === */
+        .разделитель-кадра {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            margin: 0;
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--color-bg);
+        /* === ЭФФЕКТ ПЕРЕХОДА === */
+        .переход-кадра {
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #fff 50%, transparent 100%);
+            opacity: 0.15;
+            animation: мерцание 4s ease-in-out infinite;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
-            border-radius: 2px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.3);
+        @keyframes мерцание {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.2; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Film Grain Overlay -->
-    <div class="film-grain"></div>
-    <div class="scratch-overlay"></div>
-    <div class="projector-drift"></div>
-    <div class="dust-particles" id="dustParticles"></div>
+    <!-- ЭФФЕКТЫ ПЛЁНКИ -->
+    <div class="кинозерно"></div>
+    <div class="царапины"></div>
+    <div class="свет-проектора"></div>
+    <div class="виньетка"></div>
+    <div class="пыль" id="пыль"></div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title gsap-reveal">Film Festival of Personal Obsessions</h1>
-            <p class="hero-subtitle gsap-reveal">
-                Five texts about cinema,<br>
-                death, friendship, trauma,<br>
-                desire and survival.
+    <!-- ГЕРОЙ -->
+    <section class="герой">
+        <div class="герой-контент">
+            <h1 class="герой-заголовок gsap-появление">Фестиваль личных одержимостей</h1>
+            <p class="герой-подзаголовок gsap-появление">
+                Пять текстов о кино,<br>
+                смерти, дружбе, травме,<br>
+                желании и выживании.
             </p>
-            <div class="hero-meta gsap-reveal">Test assignment for Cinemaholics</div>
+            <div class="герой-мета gsap-появление">Тестовое задание для Cinemaholics</div>
         </div>
-        <div class="film-counter gsap-reveal">
+        <div class="счётчик-плёнки gsap-появление">
             <span>0001</span>
-            <div class="counter-line"></div>
+            <div class="счётчик-линия"></div>
             <span>0005</span>
         </div>
     </section>
 
-    <!-- Film 01: Golden Globe -->
-    <section class="film-section chapter-1">
-        <div class="spotlight"></div>
-        <div class="scene-marker" style="top: 10%; left: 5%;">Scene 01</div>
-        <div class="scene-marker" style="top: 20%; right: 8%;">Roll 001</div>
-        <div class="scene-marker" style="bottom: 15%; left: 10%;">Take 01</div>
+    <div class="переход-кадра"></div>
 
-        <div class="film-poster">
-            <div class="film-number gsap-reveal">Film 01</div>
-            <div class="film-official-selection gsap-reveal">Official Selection</div>
-            <div class="film-program gsap-reveal">Personal Notes Program</div>
-            <h2 class="film-title gsap-reveal">Golden Globe</h2>
-            <div class="film-quote gsap-reveal">как-то совершенно забыл, что сегодня должны были дропнуть номинантов</div>
+    <!-- ФИЛЬМ 01: ЗОЛОТОЙ ГЛОБУС -->
+    <section class="фильм-секция глава-1">
+        <div class="фильм-постер">
+            <div class="фильм-постер-затемнение"></div>
+            <div class="прожектор"></div>
+
+            <div class="маркер-сцены" style="top: 12%; left: 3%;">СЦЕНА 01</div>
+            <div class="маркер-сцены" style="top: 22%; right: 4%;">РУЛОН 001</div>
+            <div class="маркер-сцены" style="bottom: 18%; left: 5%;">ДУБЛЬ 01</div>
+            <div class="маркер-сцены" style="bottom: 28%; right: 6%;">КАТЕГОРИЯ: ЛИЧНЫЕ ФАВОРИТЫ</div>
+
+            <div class="фильм-контент-внутри">
+                <div class="фильм-номер gsap-появление">Фильм 01</div>
+                <div class="фильм-отбор gsap-появление">Официальный отбор</div>
+                <div class="фильм-программа gsap-появление">Программа личных заметок</div>
+                <h2 class="фильм-заголовок gsap-появление">Золотой Глобус</h2>
+                <div class="фильм-цитата gsap-появление">«как-то совершенно забыл, что сегодня должны были дропнуть номинантов»</div>
+            </div>
         </div>
-        <div class="film-content">
-            <div class="film-meta-info gsap-reveal">
-                <div class="meta-item">
-                    <span class="meta-label">Scene</span>
-                    <span class="meta-value">01</span>
+
+        <div class="разделитель-кадра"></div>
+
+        <div class="фильм-текст-секция">
+            <div class="фильм-мета-инфо gsap-появление">
+                <div class="мета-элемент">
+                    <span class="мета-метка">СЦЕНА</span>
+                    <span class="мета-значение">01</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Run Time</span>
-                    <span class="meta-value">03:45</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ХРОНОМЕТРАЖ</span>
+                    <span class="мета-значение">03:45</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Category</span>
-                    <span class="meta-value">Personal Favorites</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТЕГОРИЯ</span>
+                    <span class="мета-значение">Личные фавориты</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Year</span>
-                    <span class="meta-value">2025 Program</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ГОД</span>
+                    <span class="мета-значение">Программа 2025</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Format</span>
-                    <span class="meta-value">35mm</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ФОРМАТ</span>
+                    <span class="мета-значение">35мм</span>
+                </div>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТАЛОГ</span>
+                    <span class="мета-значение">#001-GG</span>
                 </div>
             </div>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 как-то совершенно забыл, что сегодня должны были дропнуть номинантов на «золотой глобус» (настолько, что смотрел лайв во время экзамена по переводу🙂‍↕️); сет получился достаточно приятный, во многих категориях очень хорошие подборки (особенно рад за еву виктор, роуз бирн и дженнифер лоуренс, три моих любимых перфоманса за год)
             </p>
         </div>
     </section>
 
-    <!-- Film 02: Happy Face -->
-    <section class="film-section chapter-2">
-        <div class="archive-grid"></div>
-        <div class="scene-marker" style="top: 12%; right: 5%;">Scene 02</div>
-        <div class="scene-marker" style="top: 25%; left: 8%;">Evidence #442</div>
-        <div class="scene-marker" style="bottom: 20%; right: 12%;">Classified</div>
+    <div class="переход-кадра"></div>
 
-        <div class="film-poster">
-            <div class="film-number gsap-reveal">Film 02</div>
-            <div class="film-official-selection gsap-reveal">Official Selection</div>
-            <div class="film-program gsap-reveal">Personal Notes Program</div>
-            <h2 class="film-title gsap-reveal">Happy Face</h2>
-            <div class="film-quote gsap-reveal">хватит их бояться и прятаться</div>
+    <!-- ФИЛЬМ 02: СЧАСТЛИВОЕ ЛИЦО -->
+    <section class="фильм-секция глава-2">
+        <div class="фильм-постер">
+            <div class="фильм-постер-затемнение"></div>
+            <div class="архивная-сетка"></div>
+
+            <div class="маркер-сцены" style="top: 14%; right: 3%;">СЦЕНА 02</div>
+            <div class="маркер-сцены" style="top: 28%; left: 4%;">ДЕЛО #442</div>
+            <div class="маркер-сцены" style="bottom: 22%; right: 5%;">СЕКРЕТНО</div>
+            <div class="маркер-сцены" style="bottom: 32%; left: 6%;">ДОСЬЕ: КЛАССИФИЦИРОВАНО</div>
+
+            <div class="фильм-контент-внутри">
+                <div class="фильм-номер gsap-появление">Фильм 02</div>
+                <div class="фильм-отбор gsap-появление">Официальный отбор</div>
+                <div class="фильм-программа gsap-появление">Программа личных заметок</div>
+                <h2 class="фильм-заголовок gsap-появление">Счастливое Лицо</h2>
+                <div class="фильм-цитата gsap-появление">хватит их бояться и прятаться</div>
+            </div>
         </div>
-        <div class="film-content">
-            <div class="film-meta-info gsap-reveal">
-                <div class="meta-item">
-                    <span class="meta-label">Scene</span>
-                    <span class="meta-value">02</span>
+
+        <div class="разделитель-кадра"></div>
+
+        <div class="фильм-текст-секция">
+            <div class="фильм-мета-инфо gsap-появление">
+                <div class="мета-элемент">
+                    <span class="мета-метка">СЦЕНА</span>
+                    <span class="мета-значение">02</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Run Time</span>
-                    <span class="meta-value">08:22</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ХРОНОМЕТРАЖ</span>
+                    <span class="мета-значение">08:22</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Category</span>
-                    <span class="meta-value">True Crime</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТЕГОРИЯ</span>
+                    <span class="мета-значение">Тру-крим</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Year</span>
-                    <span class="meta-value">2025 Program</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ГОД</span>
+                    <span class="мета-значение">Программа 2025</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Format</span>
-                    <span class="meta-value">Digital</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ФОРМАТ</span>
+                    <span class="мета-значение">Цифровой</span>
+                </div>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТАЛОГ</span>
+                    <span class="мета-значение">#002-HF</span>
                 </div>
             </div>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 «человек со счастливым лицом» начинается как типичный тру-крайм: мелисса – дочь известного серийного убийцы кита джесперсона по кличке «убийца со счастливым лицом». сейчас она живет под другой фамилией, воспитывает двух детей в счастливой семье и работает гримеркой на популярном тру-крайм шоу; эта идиллия нарушается, когда ее отец звонит на шоу, признается в новом убийстве (что ведет его прямиком на электрический стул) и говорит, что расскажет детали только мелиссе.
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 то, что выглядит тру-краймом, в первую очередь является сериалом о несправедливости и лени американского правосудия. пока настоящий убийца признается в содеянном, прокуроры продолжают стоять на своем, не проявляя ни капли интереса ни к правде, ни к справедливости, а защищая себя.
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 а ещё то, что выглядит тру-краймом, оказывается сериалом о наших корнях, отцах и призраках прошлого; хватит их бояться и прятаться, пора дать им отпор и перестать позволять газлайтить и контролировать нас.
             </p>
         </div>
     </section>
 
-    <!-- Film 03: Dying for Sex -->
-    <section class="film-section chapter-3">
-        <div class="soft-glow"></div>
-        <div class="scene-marker" style="top: 8%; left: 8%;">Scene 03</div>
-        <div class="scene-marker" style="top: 30%; right: 5%;">Intimate Take</div>
-        <div class="scene-marker" style="bottom: 10%; left: 15%;">Roll 003</div>
+    <div class="переход-кадра"></div>
 
-        <div class="film-poster">
-            <div class="film-number gsap-reveal">Film 03</div>
-            <div class="film-official-selection gsap-reveal">Official Selection</div>
-            <div class="film-program gsap-reveal">Personal Notes Program</div>
-            <h2 class="film-title gsap-reveal">Dying for Sex</h2>
-            <div class="film-quote gsap-reveal">мы живем один раз</div>
+    <!-- ФИЛЬМ 03: УМИРАЯ ЗА СЕКС -->
+    <section class="фильм-секция глава-3">
+        <div class="фильм-постер">
+            <div class="фильм-постер-затемнение"></div>
+            <div class="мягкое-свечение"></div>
+
+            <div class="маркер-сцены" style="top: 10%; left: 4%;">СЦЕНА 03</div>
+            <div class="маркер-сцены" style="top: 32%; right: 3%;">ИНТИМНЫЙ ДУБЛЬ</div>
+            <div class="маркер-сцены" style="bottom: 12%; left: 6%;">РУЛОН 003</div>
+            <div class="маркер-сцены" style="bottom: 25%; right: 5%;">ЭМОЦИОНАЛЬНЫЙ ПИК</div>
+
+            <div class="фильм-контент-внутри">
+                <div class="фильм-номер gsap-появление">Фильм 03</div>
+                <div class="фильм-отбор gsap-появление">Официальный отбор</div>
+                <div class="фильм-программа gsap-появление">Программа личных заметок</div>
+                <h2 class="фильм-заголовок gsap-появление">Умирая за Секс</h2>
+                <div class="фильм-цитата gsap-появление">мы живем один раз</div>
+            </div>
         </div>
-        <div class="film-content">
-            <div class="film-meta-info gsap-reveal">
-                <div class="meta-item">
-                    <span class="meta-label">Scene</span>
-                    <span class="meta-value">03</span>
+
+        <div class="разделитель-кадра"></div>
+
+        <div class="фильм-текст-секция">
+            <div class="фильм-мета-инфо gsap-появление">
+                <div class="мета-элемент">
+                    <span class="мета-метка">СЦЕНА</span>
+                    <span class="мета-значение">03</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Run Time</span>
-                    <span class="meta-value">12:15</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ХРОНОМЕТРАЖ</span>
+                    <span class="мета-значение">12:15</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Category</span>
-                    <span class="meta-value">Emotional Peak</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТЕГОРИЯ</span>
+                    <span class="мета-значение">Эмоциональный пик</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Year</span>
-                    <span class="meta-value">2025 Program</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ГОД</span>
+                    <span class="мета-значение">Программа 2025</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Format</span>
-                    <span class="meta-value">16mm</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ФОРМАТ</span>
+                    <span class="мета-значение">16мм</span>
+                </div>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТАЛОГ</span>
+                    <span class="мета-значение">#003-DFS</span>
                 </div>
             </div>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 бежал к вам три дня и три ночи, чтобы сказать какой же «dying for sex» с мишель уильямс великий сериал!
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 когда молли ставят терминальную стадию рака, она решает взять жизнь в свои руки. девушка уходит от мужа, переезжает к своей лучшей подруге никки (которой теперь предстоит заботиться о ней). а еще она ставит план на оставшиеся пару лет — вернуть в свою жизнь секс и оргазмы, пропавшие после первого лечения.
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 у создателей получилось снять сериал о прекрасном путешествии в мир принятия и принятия себя; мы живем один раз: не стыдимся и не стесняемся своих желаний, пробуем все, отпускаем травмы, спасибо молли за этот урок.
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 а еще это сериал о настоящей дружбе. той, которая с тобой от начала и до конца, которая поможет и поддержит на всем пути, будь то поход на кинк-пати или умирание.
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 у создателей получилось выдержать отличный баланс между грустным и смешным. но я все равно не прощу им, что подключался на пару по переводу зарёванным🫡
             </p>
         </div>
     </section>
 
-    <!-- Film 04: Bad Sisters -->
-    <section class="film-section chapter-4">
-        <div class="vintage-overlay"></div>
-        <div class="scene-marker" style="top: 15%; right: 10%;">Scene 04</div>
-        <div class="scene-marker" style="top: 35%; left: 5%;">Archive 1980</div>
-        <div class="scene-marker" style="bottom: 25%; right: 8%;">Family Record</div>
+    <div class="переход-кадра"></div>
 
-        <div class="film-poster">
-            <div class="film-number gsap-reveal">Film 04</div>
-            <div class="film-official-selection gsap-reveal">Official Selection</div>
-            <div class="film-program gsap-reveal">Personal Notes Program</div>
-            <h2 class="film-title gsap-reveal">Bad Sisters</h2>
-            <div class="film-quote gsap-reveal">диктатор будет повержен</div>
+    <!-- ФИЛЬМ 04: ПЛОХИЕ СЁСТРЫ -->
+    <section class="фильм-секция глава-4">
+        <div class="фильм-постер">
+            <div class="фильм-постер-затемнение"></div>
+            <div class="винтаж-наложение"></div>
+
+            <div class="маркер-сцены" style="top: 16%; right: 4%;">СЦЕНА 04</div>
+            <div class="маркер-сцены" style="top: 38%; left: 3%;">АРХИВ 1980</div>
+            <div class="маркер-сцены" style="bottom: 28%; right: 5%;">СЕМЕЙНАЯ ХРОНИКА</div>
+            <div class="маркер-сцены" style="bottom: 15%; left: 6%;">ИРЛАНДСКАЯ ДРАМА</div>
+
+            <div class="фильм-контент-внутри">
+                <div class="фильм-номер gsap-появление">Фильм 04</div>
+                <div class="фильм-отбор gsap-появление">Официальный отбор</div>
+                <div class="фильм-программа gsap-появление">Программа личных заметок</div>
+                <h2 class="фильм-заголовок gsap-появление">Плохие Сёстры</h2>
+                <div class="фильм-цитата gsap-появление">диктатор будет повержен</div>
+            </div>
         </div>
-        <div class="film-content">
-            <div class="film-meta-info gsap-reveal">
-                <div class="meta-item">
-                    <span class="meta-label">Scene</span>
-                    <span class="meta-value">04</span>
+
+        <div class="разделитель-кадра"></div>
+
+        <div class="фильм-текст-секция">
+            <div class="фильм-мета-инфо gsap-появление">
+                <div class="мета-элемент">
+                    <span class="мета-метка">СЦЕНА</span>
+                    <span class="мета-значение">04</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Run Time</span>
-                    <span class="meta-value">15:30</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ХРОНОМЕТРАЖ</span>
+                    <span class="мета-значение">15:30</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Category</span>
-                    <span class="meta-value">Irish Drama</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТЕГОРИЯ</span>
+                    <span class="мета-значение">Ирландская драма</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Year</span>
-                    <span class="meta-value">2025 Program</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ГОД</span>
+                    <span class="мета-значение">Программа 2025</span>
                 </div>
-                <div class="meta-item">
-                    <span class="meta-label">Format</span>
-                    <span class="meta-value">Super 8</span>
+                <div class="мета-элемент">
+                    <span class="мета-метка">ФОРМАТ</span>
+                    <span class="мета-значение">Super 8</span>
+                </div>
+                <div class="мета-элемент">
+                    <span class="мета-метка">КАТАЛОГ</span>
+                    <span class="мета-значение">#004-BS</span>
                 </div>
             </div>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 из просмотренного ещё забыл упомянуть прекраснейший «заговор сестер гарви» от appletv
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 в детстве пятерых сестер гарви произошла трагедия: их родители погибли в автокатастрофе, опеку над ними взяла на себя старшая из девочек - ива. спустя много лет в их жизни происходит трагедия номер два: одна из сестер - грейси - выходит замуж за джона пола (aka «конченый» - токсичного и максимально мерзкого абьюзера и манипулятора, который портит жизнь не только ей, но и остальным гарви, а поэтому они находят единственный выход и спасение - убить его.
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 сериал безусловно суперский и входит в топ-5 за 2022, весь актерский состав тут достоин всевозможных номинаций и наград (чего только стоит «конченый» в исполнении класа банга), а смотрится «заговор сестер» супер быстро и интересно (мама, например, не могла уснуть пока весь сериал не проглотила, пока не посмотрит ещё пару серий).
             </p>
-            <p class="film-text gsap-reveal">
+            <p class="фильм-текст gsap-появление">
                 да и вообще, с учетом нынешних реалий смотреть сериал о победе над патриархальным диктатором, который из-за собственных комплексов и проблем портит жизнь обычным людям - особенно актуально; диктатор будет повержен, а людям предстоит свободно смеяться и жить
             </p>
         </div>
     </section>
 
-    <!-- Credits Section -->
-    <section class="credits">
-        <div class="credits-content">
-            <h2 class="credits-title gsap-reveal">Thank You For Watching</h2>
-            <p class="credits-text gsap-reveal">Written and curated by</p>
-            <p class="credits-author gsap-reveal">[имя автора]</p>
-            <div style="margin-top: 3rem;">
-                <p class="credits-text gsap-reveal">More Notes About Cinema</p>
-                <a href="https://t.me/egorscreek" target="_blank" class="credits-link gsap-reveal">Telegram Channel</a>
+    <div class="переход-кадра"></div>
+
+    <!-- ТИТРЫ -->
+    <section class="титры">
+        <div class="титры-контент">
+            <h2 class="титры-заголовок gsap-появление">Спасибо за просмотр</h2>
+            <p class="титры-текст gsap-появление">Автор и куратор</p>
+            <p class="титры-автор gsap-появление">[имя автора]</p>
+            <div style="margin-top: 2rem;">
+                <p class="титры-текст gsap-появление">Больше заметок о кино</p>
+                <a href="https://t.me/egorscreek" target="_blank" class="титры-ссылка gsap-появление">Telegram-канал</a>
             </div>
         </div>
     </section>
 
     <script>
-        // Initialize Lenis Smooth Scroll
+        // === ИНИЦИАЛИЗАЦИЯ LENIS ===
         const lenis = new Lenis({
-            duration: 1.2,
+            duration: 1.4,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
@@ -962,155 +1001,155 @@
         }
         requestAnimationFrame(raf);
 
-        // Connect Lenis to GSAP ScrollTrigger
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
         });
         gsap.ticker.lagSmoothing(0);
 
-        // GSAP Animations
+        // === GSAP АНИМАЦИИ ===
         gsap.registerPlugin(ScrollTrigger);
 
-        // Generate dust particles
-        const dustContainer = document.getElementById('dustParticles');
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'dust-particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particle.style.width = (Math.random() * 3 + 1) + 'px';
-            particle.style.height = particle.style.width;
-            dustContainer.appendChild(particle);
+        // Генерация частиц пыли
+        const пыльКонтейнер = document.getElementById('пыль');
+        for (let i = 0; i < 40; i++) {
+            const частица = document.createElement('div');
+            частица.className = 'частица';
+            частица.style.left = Math.random() * 100 + '%';
+            частица.style.animationDuration = (Math.random() * 20 + 12) + 's';
+            частица.style.animationDelay = Math.random() * 15 + 's';
+            частица.style.width = (Math.random() * 3 + 1) + 'px';
+            частица.style.height = частица.style.width;
+            пыльКонтейнер.appendChild(частица);
         }
 
-        // Hero animations
-        gsap.to('.hero-title', {
-            opacity: 1,
-            y: 0,
-            duration: 1.8,
-            ease: 'power3.out',
-            delay: 0.5
+        // Герой
+        gsap.to('.герой-заголовок', {
+            opacity: 1, y: 0, duration: 2, ease: 'power3.out', delay: 0.6
+        });
+        gsap.to('.герой-подзаголовок', {
+            opacity: 1, y: 0, duration: 2, ease: 'power3.out', delay: 1
+        });
+        gsap.to('.герой-мета', {
+            opacity: 0.6, y: 0, duration: 2, ease: 'power3.out', delay: 1.4
+        });
+        gsap.to('.счётчик-плёнки', {
+            opacity: 1, y: 0, duration: 2, ease: 'power3.out', delay: 1.8
         });
 
-        gsap.to('.hero-subtitle', {
-            opacity: 1,
-            y: 0,
-            duration: 1.8,
-            ease: 'power3.out',
-            delay: 0.9
-        });
-
-        gsap.to('.hero-meta', {
-            opacity: 0.7,
-            y: 0,
-            duration: 1.8,
-            ease: 'power3.out',
-            delay: 1.3
-        });
-
-        gsap.to('.film-counter', {
-            opacity: 1,
-            y: 0,
-            duration: 1.8,
-            ease: 'power3.out',
-            delay: 1.7
-        });
-
-        // Film sections reveal animations
-        const revealElements = document.querySelectorAll('.gsap-reveal');
-
-        revealElements.forEach((element) => {
-            gsap.to(element, {
+        // Появление элементов при скролле
+        const элементыПоявления = document.querySelectorAll('.gsap-появление');
+        элементыПоявления.forEach((элемент) => {
+            gsap.to(элемент, {
                 scrollTrigger: {
-                    trigger: element,
-                    start: 'top 88%',
-                    end: 'bottom 15%',
+                    trigger: элемент,
+                    start: 'top 90%',
+                    end: 'bottom 10%',
                     toggleActions: 'play none none reverse'
                 },
                 opacity: 1,
                 y: 0,
-                duration: 1.4,
+                duration: 1.6,
                 ease: 'power3.out'
             });
         });
 
-        // Parallax effect for film posters
-        const filmPosters = document.querySelectorAll('.film-poster');
-
-        filmPosters.forEach((poster) => {
-            gsap.to(poster, {
+        // Параллакс постеров
+        const постеры = document.querySelectorAll('.фильм-постер');
+        постеры.forEach((постер) => {
+            gsap.to(постер, {
                 scrollTrigger: {
-                    trigger: poster,
+                    trigger: постер,
                     start: 'top bottom',
                     end: 'bottom top',
                     scrub: true
                 },
-                y: -80,
+                y: -100,
                 ease: 'none'
             });
         });
 
-        // Film titles scale and blur animation
-        const filmTitles = document.querySelectorAll('.film-title');
-
-        filmTitles.forEach((title) => {
-            gsap.from(title, {
+        // Анимация заголовков с размытием
+        const заголовкиФильмов = document.querySelectorAll('.фильм-заголовок');
+        заголовкиФильмов.forEach((заголовок) => {
+            gsap.from(заголовок, {
                 scrollTrigger: {
-                    trigger: title,
+                    trigger: заголовок,
                     start: 'top 85%',
-                    end: 'top 25%',
+                    end: 'top 20%',
                     scrub: true
                 },
-                scale: 0.85,
-                opacity: 0.3,
-                filter: 'blur(10px)',
+                scale: 0.8,
+                opacity: 0.2,
+                filter: 'blur(15px)',
                 ease: 'power2.out'
             });
         });
 
-        // Film quotes animation with blur
-        const filmQuotes = document.querySelectorAll('.film-quote');
-
-        filmQuotes.forEach((quote) => {
-            gsap.from(quote, {
+        // Анимация цитат
+        const цитаты = document.querySelectorAll('.фильм-цитата');
+        цитаты.forEach((цитата) => {
+            gsap.from(цитата, {
                 scrollTrigger: {
-                    trigger: quote,
+                    trigger: цитата,
                     start: 'top 90%',
-                    end: 'top 40%',
+                    end: 'top 35%',
                     scrub: true
                 },
-                y: 60,
+                y: 80,
                 opacity: 0,
-                filter: 'blur(5px)',
+                filter: 'blur(8px)',
                 ease: 'power2.out'
             });
         });
 
-        // Scene markers parallax
-        const sceneMarkers = document.querySelectorAll('.scene-marker');
-
-        sceneMarkers.forEach((marker) => {
-            gsap.to(marker, {
+        // Параллакс маркеров сцен
+        const маркеры = document.querySelectorAll('.маркер-сцены');
+        маркеры.forEach((маркер) => {
+            gsap.to(маркер, {
                 scrollTrigger: {
-                    trigger: marker.parentElement,
+                    trigger: маркер.parentElement,
                     start: 'top bottom',
                     end: 'bottom top',
                     scrub: true
                 },
-                y: -30,
-                opacity: 0.15,
+                y: -40,
+                opacity: 0.12,
                 ease: 'none'
             });
         });
 
-        // Credits animation
-        gsap.from('.credits-title', {
+        // Титры
+        gsap.from('.титры-заголовок', {
             scrollTrigger: {
-                trigger: '.credits',
+                trigger: '.титры',
                 start: 'top 80%',
-                end: 'top 30%',
+                end: 'top 25%',
+                scrub: true
+            },
+            y: 60,
+            opacity: 0,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.титры-текст', {
+            scrollTrigger: {
+                trigger: '.титры',
+                start: 'top 70%',
+                end: 'top 25%',
+                scrub: true
+            },
+            y: 40,
+            opacity: 0,
+            stagger: 0.3,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.титры-автор', {
+            scrollTrigger: {
+                trigger: '.титры',
+                start: 'top 60%',
+                end: 'top 25%',
                 scrub: true
             },
             y: 50,
@@ -1118,36 +1157,11 @@
             ease: 'power2.out'
         });
 
-        gsap.from('.credits-text', {
+        gsap.from('.титры-ссылка', {
             scrollTrigger: {
-                trigger: '.credits',
-                start: 'top 70%',
-                end: 'top 30%',
-                scrub: true
-            },
-            y: 30,
-            opacity: 0,
-            stagger: 0.2,
-            ease: 'power2.out'
-        });
-
-        gsap.from('.credits-author', {
-            scrollTrigger: {
-                trigger: '.credits',
-                start: 'top 60%',
-                end: 'top 30%',
-                scrub: true
-            },
-            y: 40,
-            opacity: 0,
-            ease: 'power2.out'
-        });
-
-        gsap.from('.credits-link', {
-            scrollTrigger: {
-                trigger: '.credits',
+                trigger: '.титры',
                 start: 'top 50%',
-                end: 'top 30%',
+                end: 'top 25%',
                 scrub: true
             },
             y: 30,
@@ -1155,25 +1169,25 @@
             ease: 'power2.out'
         });
 
-        // Subtle hover effect for film sections
-        document.querySelectorAll('.film-section').forEach(section => {
-            section.addEventListener('mousemove', (e) => {
-                const x = (e.clientX / window.innerWidth - 0.5) * 10;
-                const y = (e.clientY / window.innerHeight - 0.5) * 10;
-
-                gsap.to(section.querySelector('.film-poster'), {
-                    rotationY: x * 0.5,
-                    rotationX: -y * 0.5,
-                    duration: 0.5,
-                    ease: 'power2.out'
+        // 3D эффект наклона при движении мыши
+        document.querySelectorAll('.фильм-постер').forEach(постер => {
+            постер.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 12;
+                const y = (e.clientY / window.innerHeight - 0.5) * 12;
+                gsap.to(постер.querySelector('.фильм-контент-внутри'), {
+                    rotationY: x * 0.6,
+                    rotationX: -y * 0.6,
+                    duration: 0.4,
+                    ease: 'power2.out',
+                    transformPerspective: 1000
                 });
             });
 
-            section.addEventListener('mouseleave', () => {
-                gsap.to(section.querySelector('.film-poster'), {
+            постер.addEventListener('mouseleave', () => {
+                gsap.to(постер.querySelector('.фильм-контент-внутри'), {
                     rotationY: 0,
                     rotationX: 0,
-                    duration: 0.5,
+                    duration: 0.6,
                     ease: 'power2.out'
                 });
             });
