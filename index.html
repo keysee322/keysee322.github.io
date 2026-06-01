@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CINEMA DIARY — Film Festival of Personal Obsessions</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #050505;
+            --color-text: #e0e0e0;
+            --color-text-dim: #666666;
+            --color-gold: #c9a96e;
+            --color-gold-dim: #8a7340;
+            --color-blue-dark: #0a0e1a;
+            --color-red-dark: #1a0505;
+            --color-pink-soft: #f0e0e0;
+            --color-green-dark: #051a0a;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            cursor: crosshair;
+        }
+
+        /* Film grain overlay - enhanced */
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            animation: grain 0.4s steps(8) infinite;
+        }
+
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-3%, -3%) rotate(0.5deg); }
+            20% { transform: translate(-6%, 3%) rotate(-0.5deg); }
+            30% { transform: translate(3%, -6%) rotate(0.3deg); }
+            40% { transform: translate(-3%, 6%) rotate(-0.3deg); }
+            50% { transform: translate(-6%, 3%) rotate(0.5deg); }
+            60% { transform: translate(6%, 0) rotate(-0.5deg); }
+            70% { transform: translate(0, 6%) rotate(0.3deg); }
+            80% { transform: translate(-6%, 0) rotate(-0.3deg); }
+            90% { transform: translate(3%, 3%) rotate(0.5deg); }
+        }
+
+        /* Projector light drift - enhanced */
+        .projector-drift {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background:
+                radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 60%, rgba(255,255,255,0.02) 0%, transparent 50%);
+            animation: drift 25s ease-in-out infinite alternate;
+            mix-blend-mode: screen;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(-8%, -8%) scale(1.1) rotate(0deg); opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { transform: translate(8%, 8%) scale(1.3) rotate(2deg); opacity: 0.6; }
+        }
+
+        /* Scratch overlay - enhanced with more variation */
+        .scratch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.025;
+            background:
+                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255,255,255,0.08) 3px, rgba(255,255,255,0.08) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 100px, rgba(255,255,255,0.03) 100px, rgba(255,255,255,0.03) 101px);
+            animation: scratchMove 20s linear infinite;
+        }
+
+        @keyframes scratchMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 0; }
+        }
+
+        /* Dust particles */
+        .dust-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        .dust-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: var(--color-bg);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%),
+                conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.01) 0deg, transparent 60deg, rgba(255,255,255,0.01) 120deg, transparent 180deg, rgba(255,255,255,0.01) 240deg, transparent 300deg, rgba(255,255,255,0.01) 360deg);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 900px;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text);
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            text-shadow: 0 0 40px rgba(255,255,255,0.05);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+            font-weight: 300;
+            color: var(--color-text-dim);
+            margin-bottom: 4rem;
+            line-height: 2;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--color-text-dim);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* Film counter scroll indicator */
+        .film-counter {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-text-dim);
+            letter-spacing: 0.4em;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .counter-line {
+            width: 80px;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .counter-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--color-text);
+            animation: slideLine 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes slideLine {
+            0% { left: -100%; }
+            50% { left: 0; }
+            100% { left: 100%; }
+        }
+
+        /* Film Section General */
+        .film-section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10rem 2rem;
+            overflow: hidden;
+        }
+
+        .film-poster {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 6rem 2rem;
+        }
+
+        .film-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.5em;
+            color: var(--color-text-dim);
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .film-number::before,
+        .film-number::after {
+            content: '—';
+            margin: 0 1rem;
+            color: rgba(255,255,255,0.2);
+        }
+
+        .film-official-selection {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: var(--color-text-dim);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .film-program {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .film-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            line-height: 0.9;
+            position: relative;
+        }
+
+        .film-quote {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+            font-weight: 400;
+            font-style: italic;
+            max-width: 900px;
+            line-height: 1.2;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .film-quote::before {
+            content: '"';
+            position: absolute;
+            top: -2rem;
+            left: 0;
+            font-size: 6rem;
+            color: rgba(255,255,255,0.05);
+            font-family: var(--font-display);
+            line-height: 1;
+        }
+
+        .film-content {
+            max-width: 750px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .film-text {
+            font-family: var(--font-body);
+            font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+            line-height: 1.9;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.01em;
+        }
+
+        .film-meta-info {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: var(--color-text-dim);
+            margin-bottom: 5rem;
+            text-transform: uppercase;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+        }
+
+        .meta-value {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+        }
+
+        /* Chapter 1: Golden Globe */
+        .chapter-1 {
+            background: linear-gradient(160deg, var(--color-blue-dark) 0%, #000000 60%, #0a0a1a 100%);
+        }
+
+        .chapter-1 .film-title {
+            color: var(--color-gold);
+            text-shadow: 0 0 60px rgba(201, 169, 110, 0.15);
+        }
+
+        .chapter-1 .film-quote {
+            color: var(--color-gold-dim);
+        }
+
+        .spotlight {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: spotlightMove 20s ease-in-out infinite alternate;
+            filter: blur(40px);
+        }
+
+        @keyframes spotlightMove {
+            0% { transform: translate(-50%, -50%) translate(15vw, 25vh); }
+            100% { transform: translate(-50%, -50%) translate(85vw, 75vh); }
+        }
+
+        /* Chapter 2: Happy Face */
+        .chapter-2 {
+            background: linear-gradient(160deg, var(--color-red-dark) 0%, #000000 50%, #1a0505 100%);
+        }
+
+        .chapter-2 .film-title {
+            color: #6b0000;
+            text-shadow: 0 0 60px rgba(139, 0, 0, 0.2);
+        }
+
+        .chapter-2 .film-quote {
+            color: #8b4040;
+            font-size: clamp(2.5rem, 7vw, 6rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-style: normal;
+            letter-spacing: 0.08em;
+            max-width: 1100px;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .chapter-2 .film-quote::before {
+            display: none;
+        }
+
+        .archive-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .redacted-text {
+            background: rgba(139, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: transparent;
+            user-select: none;
+            margin: 0 0.2rem;
+        }
+
+        /* Chapter 3: Dying for Sex */
+        .chapter-3 {
+            background: linear-gradient(160deg, #1a0a0a 0%, #2a1515 40%, #1a0a0a 100%);
+        }
+
+        .chapter-3 .film-title {
+            color: var(--color-pink-soft);
+            text-shadow: 0 0 60px rgba(240, 224, 224, 0.1);
+        }
+
+        .chapter-3 .film-quote {
+            color: #c4a0a0;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .soft-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(240, 224, 224, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: softPulse 12s ease-in-out infinite alternate;
+            filter: blur(60px);
+        }
+
+        @keyframes softPulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
+        }
+
+        /* Chapter 4: Bad Sisters */
+        .chapter-4 {
+            background: linear-gradient(160deg, var(--color-green-dark) 0%, #000000 50%, #051a0a 100%);
+        }
+
+        .chapter-4 .film-title {
+            color: #2d5a3d;
+            text-shadow: 0 0 60px rgba(45, 90, 61, 0.15);
+        }
+
+        .chapter-4 .film-quote {
+            color: #3d6a4d;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-style: normal;
+            letter-spacing: 0.15em;
+            line-height: 1.1;
+        }
+
+        .vintage-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.04;
+            background:
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.15) 0%, transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(0,0,0,0.3) 0%, transparent 40%),
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 20px);
+        }
+
+        /* Credits Section */
+        .credits {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: var(--color-bg);
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 2rem;
+        }
+
+        .credits-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .credits-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 4rem;
+            color: var(--color-text);
+            position: relative;
+            display: inline-block;
+        }
+
+        .credits-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .credits-text {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--color-text-dim);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .credits-author {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--color-text);
+            margin-bottom: 4rem;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .credits-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1.2rem 4rem;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: var(--color-text);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .credits-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--color-text);
+            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .credits-link:hover {
+            color: var(--color-bg);
+            border-color: var(--color-text);
+        }
+
+        .credits-link:hover::before {
+            left: 0;
+        }
+
+        /* Utility classes for GSAP */
+        .gsap-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        /* Scene markers */
+        .scene-marker {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.15);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .film-section {
+                padding: 6rem 1.5rem;
+            }
+            .film-poster {
+                padding: 3rem 1.5rem;
+                min-height: 80vh;
+            }
+            .film-meta-info {
+                gap: 1.5rem;
+                flex-direction: column;
+            }
+            .film-quote::before {
+                font-size: 4rem;
+                top: -1.5rem;
+            }
+            .hero-title {
+                letter-spacing: 0.1em;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Film Grain Overlay -->
+    <div class="film-grain"></div>
+    <div class="scratch-overlay"></div>
+    <div class="projector-drift"></div>
+    <div class="dust-particles" id="dustParticles"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title gsap-reveal">Film Festival of Personal Obsessions</h1>
+            <p class="hero-subtitle gsap-reveal">
+                Five texts about cinema,<br>
+                death, friendship, trauma,<br>
+                desire and survival.
+            </p>
+            <div class="hero-meta gsap-reveal">Test assignment for Cinemaholics</div>
+        </div>
+        <div class="film-counter gsap-reveal">
+            <span>0001</span>
+            <div class="counter-line"></div>
+            <span>0005</span>
+        </div>
+    </section>
+
+    <!-- Film 01: Golden Globe -->
+    <section class="film-section chapter-1">
+        <div class="spotlight"></div>
+        <div class="scene-marker" style="top: 10%; left: 5%;">Scene 01</div>
+        <div class="scene-marker" style="top: 20%; right: 8%;">Roll 001</div>
+        <div class="scene-marker" style="bottom: 15%; left: 10%;">Take 01</div>
+
+        <div class="film-poster">
+            <div class="film-number gsap-reveal">Film 01</div>
+            <div class="film-official-selection gsap-reveal">Official Selection</div>
+            <div class="film-program gsap-reveal">Personal Notes Program</div>
+            <h2 class="film-title gsap-reveal">Golden Globe</h2>
+            <div class="film-quote gsap-reveal">как-то совершенно забыл, что сегодня должны были дропнуть номинантов</div>
+        </div>
+        <div class="film-content">
+            <div class="film-meta-info gsap-reveal">
+                <div class="meta-item">
+                    <span class="meta-label">Scene</span>
+                    <span class="meta-value">01</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Run Time</span>
+                    <span class="meta-value">03:45</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Category</span>
+                    <span class="meta-value">Personal Favorites</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Year</span>
+                    <span class="meta-value">2025 Program</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Format</span>
+                    <span class="meta-value">35mm</span>
+                </div>
+            </div>
+            <p class="film-text gsap-reveal">
+                как-то совершенно забыл, что сегодня должны были дропнуть номинантов на «золотой глобус» (настолько, что смотрел лайв во время экзамена по переводу🙂‍↕️); сет получился достаточно приятный, во многих категориях очень хорошие подборки (особенно рад за еву виктор, роуз бирн и дженнифер лоуренс, три моих любимых перфоманса за год)
+            </p>
+        </div>
+    </section>
+
+    <!-- Film 02: Happy Face -->
+    <section class="film-section chapter-2">
+        <div class="archive-grid"></div>
+        <div class="scene-marker" style="top: 12%; right: 5%;">Scene 02</div>
+        <div class="scene-marker" style="top: 25%; left: 8%;">Evidence #442</div>
+        <div class="scene-marker" style="bottom: 20%; right: 12%;">Classified</div>
+
+        <div class="film-poster">
+            <div class="film-number gsap-reveal">Film 02</div>
+            <div class="film-official-selection gsap-reveal">Official Selection</div>
+            <div class="film-program gsap-reveal">Personal Notes Program</div>
+            <h2 class="film-title gsap-reveal">Happy Face</h2>
+            <div class="film-quote gsap-reveal">хватит их бояться и прятаться</div>
+        </div>
+        <div class="film-content">
+            <div class="film-meta-info gsap-reveal">
+                <div class="meta-item">
+                    <span class="meta-label">Scene</span>
+                    <span class="meta-value">02</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Run Time</span>
+                    <span class="meta-value">08:22</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Category</span>
+                    <span class="meta-value">True Crime</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Year</span>
+                    <span class="meta-value">2025 Program</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Format</span>
+                    <span class="meta-value">Digital</span>
+                </div>
+            </div>
+            <p class="film-text gsap-reveal">
+                «человек со счастливым лицом» начинается как типичный тру-крайм: мелисса – дочь известного серийного убийцы кита джесперсона по кличке «убийца со счастливым лицом». сейчас она живет под другой фамилией, воспитывает двух детей в счастливой семье и работает гримеркой на популярном тру-крайм шоу; эта идиллия нарушается, когда ее отец звонит на шоу, признается в новом убийстве (что ведет его прямиком на электрический стул) и говорит, что расскажет детали только мелиссе.
+            </p>
+            <p class="film-text gsap-reveal">
+                то, что выглядит тру-краймом, в первую очередь является сериалом о несправедливости и лени американского правосудия. пока настоящий убийца признается в содеянном, прокуроры продолжают стоять на своем, не проявляя ни капли интереса ни к правде, ни к справедливости, а защищая себя.
+            </p>
+            <p class="film-text gsap-reveal">
+                а ещё то, что выглядит тру-краймом, оказывается сериалом о наших корнях, отцах и призраках прошлого; хватит их бояться и прятаться, пора дать им отпор и перестать позволять газлайтить и контролировать нас.
+            </p>
+        </div>
+    </section>
+
+    <!-- Film 03: Dying for Sex -->
+    <section class="film-section chapter-3">
+        <div class="soft-glow"></div>
+        <div class="scene-marker" style="top: 8%; left: 8%;">Scene 03</div>
+        <div class="scene-marker" style="top: 30%; right: 5%;">Intimate Take</div>
+        <div class="scene-marker" style="bottom: 10%; left: 15%;">Roll 003</div>
+
+        <div class="film-poster">
+            <div class="film-number gsap-reveal">Film 03</div>
+            <div class="film-official-selection gsap-reveal">Official Selection</div>
+            <div class="film-program gsap-reveal">Personal Notes Program</div>
+            <h2 class="film-title gsap-reveal">Dying for Sex</h2>
+            <div class="film-quote gsap-reveal">мы живем один раз</div>
+        </div>
+        <div class="film-content">
+            <div class="film-meta-info gsap-reveal">
+                <div class="meta-item">
+                    <span class="meta-label">Scene</span>
+                    <span class="meta-value">03</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Run Time</span>
+                    <span class="meta-value">12:15</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Category</span>
+                    <span class="meta-value">Emotional Peak</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Year</span>
+                    <span class="meta-value">2025 Program</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Format</span>
+                    <span class="meta-value">16mm</span>
+                </div>
+            </div>
+            <p class="film-text gsap-reveal">
+                бежал к вам три дня и три ночи, чтобы сказать какой же «dying for sex» с мишель уильямс великий сериал!
+            </p>
+            <p class="film-text gsap-reveal">
+                когда молли ставят терминальную стадию рака, она решает взять жизнь в свои руки. девушка уходит от мужа, переезжает к своей лучшей подруге никки (которой теперь предстоит заботиться о ней). а еще она ставит план на оставшиеся пару лет — вернуть в свою жизнь секс и оргазмы, пропавшие после первого лечения.
+            </p>
+            <p class="film-text gsap-reveal">
+                у создателей получилось снять сериал о прекрасном путешествии в мир принятия и принятия себя; мы живем один раз: не стыдимся и не стесняемся своих желаний, пробуем все, отпускаем травмы, спасибо молли за этот урок.
+            </p>
+            <p class="film-text gsap-reveal">
+                а еще это сериал о настоящей дружбе. той, которая с тобой от начала и до конца, которая поможет и поддержит на всем пути, будь то поход на кинк-пати или умирание.
+            </p>
+            <p class="film-text gsap-reveal">
+                у создателей получилось выдержать отличный баланс между грустным и смешным. но я все равно не прощу им, что подключался на пару по переводу зарёванным🫡
+            </p>
+        </div>
+    </section>
+
+    <!-- Film 04: Bad Sisters -->
+    <section class="film-section chapter-4">
+        <div class="vintage-overlay"></div>
+        <div class="scene-marker" style="top: 15%; right: 10%;">Scene 04</div>
+        <div class="scene-marker" style="top: 35%; left: 5%;">Archive 1980</div>
+        <div class="scene-marker" style="bottom: 25%; right: 8%;">Family Record</div>
+
+        <div class="film-poster">
+            <div class="film-number gsap-reveal">Film 04</div>
+            <div class="film-official-selection gsap-reveal">Official Selection</div>
+            <div class="film-program gsap-reveal">Personal Notes Program</div>
+            <h2 class="film-title gsap-reveal">Bad Sisters</h2>
+            <div class="film-quote gsap-reveal">диктатор будет повержен</div>
+        </div>
+        <div class="film-content">
+            <div class="film-meta-info gsap-reveal">
+                <div class="meta-item">
+                    <span class="meta-label">Scene</span>
+                    <span class="meta-value">04</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Run Time</span>
+                    <span class="meta-value">15:30</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Category</span>
+                    <span class="meta-value">Irish Drama</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Year</span>
+                    <span class="meta-value">2025 Program</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Format</span>
+                    <span class="meta-value">Super 8</span>
+                </div>
+            </div>
+            <p class="film-text gsap-reveal">
+                из просмотренного ещё забыл упомянуть прекраснейший «заговор сестер гарви» от appletv
+            </p>
+            <p class="film-text gsap-reveal">
+                в детстве пятерых сестер гарви произошла трагедия: их родители погибли в автокатастрофе, опеку над ними взяла на себя старшая из девочек - ива. спустя много лет в их жизни происходит трагедия номер два: одна из сестер - грейси - выходит замуж за джона пола (aka «конченый» - токсичного и максимально мерзкого абьюзера и манипулятора, который портит жизнь не только ей, но и остальным гарви, а поэтому они находят единственный выход и спасение - убить его.
+            </p>
+            <p class="film-text gsap-reveal">
+                сериал безусловно суперский и входит в топ-5 за 2022, весь актерский состав тут достоин всевозможных номинаций и наград (чего только стоит «конченый» в исполнении класа банга), а смотрится «заговор сестер» супер быстро и интересно (мама, например, не могла уснуть пока весь сериал не проглотила, пока не посмотрит ещё пару серий).
+            </p>
+            <p class="film-text gsap-reveal">
+                да и вообще, с учетом нынешних реалий смотреть сериал о победе над патриархальным диктатором, который из-за собственных комплексов и проблем портит жизнь обычным людям - особенно актуально; диктатор будет повержен, а людям предстоит свободно смеяться и жить
+            </p>
+        </div>
+    </section>
+
+    <!-- Credits Section -->
+    <section class="credits">
+        <div class="credits-content">
+            <h2 class="credits-title gsap-reveal">Thank You For Watching</h2>
+            <p class="credits-text gsap-reveal">Written and curated by</p>
+            <p class="credits-author gsap-reveal">[имя автора]</p>
+            <div style="margin-top: 3rem;">
+                <p class="credits-text gsap-reveal">More Notes About Cinema</p>
+                <a href="https://t.me/egorscreek" target="_blank" class="credits-link gsap-reveal">Telegram Channel</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Connect Lenis to GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Generate dust particles
+        const dustContainer = document.getElementById('dustParticles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'dust-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.width = (Math.random() * 3 + 1) + 'px';
+            particle.style.height = particle.style.width;
+            dustContainer.appendChild(particle);
+        }
+
+        // Hero animations
+        gsap.to('.hero-title', {
+            opacity: 1,
+            y: 0,
+            duration: 1.8,
+            ease: 'power3.out',
+            delay: 0.5
+        });
+
+        gsap.to('.hero-subtitle', {
+            opacity: 1,
+            y: 0,
+            duration: 1.8,
+            ease: 'power3.out',
+            delay: 0.9
+        });
+
+        gsap.to('.hero-meta', {
+            opacity: 0.7,
+            y: 0,
+            duration: 1.8,
+            ease: 'power3.out',
+            delay: 1.3
+        });
+
+        gsap.to('.film-counter', {
+            opacity: 1,
+            y: 0,
+            duration: 1.8,
+            ease: 'power3.out',
+            delay: 1.7
+        });
+
+        // Film sections reveal animations
+        const revealElements = document.querySelectorAll('.gsap-reveal');
+
+        revealElements.forEach((element) => {
+            gsap.to(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 88%',
+                    end: 'bottom 15%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.4,
+                ease: 'power3.out'
+            });
+        });
+
+        // Parallax effect for film posters
+        const filmPosters = document.querySelectorAll('.film-poster');
+
+        filmPosters.forEach((poster) => {
+            gsap.to(poster, {
+                scrollTrigger: {
+                    trigger: poster,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                },
+                y: -80,
+                ease: 'none'
+            });
+        });
+
+        // Film titles scale and blur animation
+        const filmTitles = document.querySelectorAll('.film-title');
+
+        filmTitles.forEach((title) => {
+            gsap.from(title, {
+                scrollTrigger: {
+                    trigger: title,
+                    start: 'top 85%',
+                    end: 'top 25%',
+                    scrub: true
+                },
+                scale: 0.85,
+                opacity: 0.3,
+                filter: 'blur(10px)',
+                ease: 'power2.out'
+            });
+        });
+
+        // Film quotes animation with blur
+        const filmQuotes = document.querySelectorAll('.film-quote');
+
+        filmQuotes.forEach((quote) => {
+            gsap.from(quote, {
+                scrollTrigger: {
+                    trigger: quote,
+                    start: 'top 90%',
+                    end: 'top 40%',
+                    scrub: true
+                },
+                y: 60,
+                opacity: 0,
+                filter: 'blur(5px)',
+                ease: 'power2.out'
+            });
+        });
+
+        // Scene markers parallax
+        const sceneMarkers = document.querySelectorAll('.scene-marker');
+
+        sceneMarkers.forEach((marker) => {
+            gsap.to(marker, {
+                scrollTrigger: {
+                    trigger: marker.parentElement,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                },
+                y: -30,
+                opacity: 0.15,
+                ease: 'none'
+            });
+        });
+
+        // Credits animation
+        gsap.from('.credits-title', {
+            scrollTrigger: {
+                trigger: '.credits',
+                start: 'top 80%',
+                end: 'top 30%',
+                scrub: true
+            },
+            y: 50,
+            opacity: 0,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.credits-text', {
+            scrollTrigger: {
+                trigger: '.credits',
+                start: 'top 70%',
+                end: 'top 30%',
+                scrub: true
+            },
+            y: 30,
+            opacity: 0,
+            stagger: 0.2,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.credits-author', {
+            scrollTrigger: {
+                trigger: '.credits',
+                start: 'top 60%',
+                end: 'top 30%',
+                scrub: true
+            },
+            y: 40,
+            opacity: 0,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.credits-link', {
+            scrollTrigger: {
+                trigger: '.credits',
+                start: 'top 50%',
+                end: 'top 30%',
+                scrub: true
+            },
+            y: 30,
+            opacity: 0,
+            ease: 'power2.out'
+        });
+
+        // Subtle hover effect for film sections
+        document.querySelectorAll('.film-section').forEach(section => {
+            section.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 10;
+                const y = (e.clientY / window.innerHeight - 0.5) * 10;
+
+                gsap.to(section.querySelector('.film-poster'), {
+                    rotationY: x * 0.5,
+                    rotationX: -y * 0.5,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            });
+
+            section.addEventListener('mouseleave', () => {
+                gsap.to(section.querySelector('.film-poster'), {
+                    rotationY: 0,
+                    rotationX: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
